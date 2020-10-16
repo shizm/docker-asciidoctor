@@ -42,7 +42,8 @@ RUN apk add --no-cache \
     ttf-dejavu \
     tzdata \
     unzip \
-    which
+    which \
+    git
 
 # Installing Ruby Gems needed in the image
 # including asciidoctor itself
@@ -50,10 +51,10 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     build-base \
     libxml2-dev \
     ruby-dev \
+  && gem install --no-document specific_install\
   && gem install --no-document \
     "asciidoctor:${ASCIIDOCTOR_VERSION}" \
     "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
-    "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
     "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
     "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
     asciimath \
@@ -67,6 +68,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     slim \
     thread_safe \
     tilt \
+  && gem specific_install https://github.com/shizm/asciidoctor-diagram.git\
   && apk del -r --no-cache .rubymakedepends
 
 # Installing Python dependencies for additional
